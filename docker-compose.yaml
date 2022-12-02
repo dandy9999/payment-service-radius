@@ -15,12 +15,13 @@ services:
       - ./config.env
     volumes:
       - ./service/freeradius/clients.conf:/etc/freeradius/3.0/clients.conf
-      - ./service/freeradius/radiusd.conf:/etc/freeradius/3.0/radiusd.conf
-      - ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-available/sqlcounter
-      - ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-enabled/sqlcounter
-      - ./service/freeradius/sites-enabled/default:/etc/freeradius/3.0/sites-enabled/default
-      - ./service/freeradius/mods-config/sql/counter/mysql/accessperiod.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/accessperiod.conf
-      - ./service/freeradius/mods-config/sql/counter/mysql/quotalimit.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/quotalimit.conf
+      #- ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-available/sqlcounter
+      #- ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-enabled/sqlcounter
+      #- ./service/freeradius/sites-enabled/default:/etc/freeradius/3.0/sites-enabled/default
+      #- ./service/freeradius/mods-config/sql/counter/mysql/accessperiod.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/accessperiod.conf
+      #- ./service/freeradius/mods-config/sql/counter/mysql/quotalimit.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/quotalimit.conf
+      #- ./service/freeradius/radiusd.conf:/etc/freeradius/3.0/radiusd.conf
+
 #  freeradius-doloradius:
 #    image: boro/freeradius-daloradius
 #    restart: always
