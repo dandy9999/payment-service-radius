@@ -1,0 +1,24 @@
+sqlcounter accessperiod {
+sql_module_instance = sql
+dialect = ${modules.sql.dialect}
+
+counter_name = Max-Access-Period-Time
+check_name = Access-Period
+key = User-Name
+reset = never
+
+$INCLUDE ${modconfdir}/sql/counter/${dialect}/${.:instance}.conf
+}
+
+sqlcounter quotalimit {
+sql_module_instance = sql
+dialect = ${modules.sql.dialect}
+
+counter_name = Max-Volume
+check_name = Max-Data
+reply_name = Mikrotik-Total-Limit
+key = User-Name
+reset = never
+
+$INCLUDE ${modconfdir}/sql/counter/${dialect}/${.:instance}.conf
+}
