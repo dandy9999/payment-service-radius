@@ -1,7 +1,17 @@
 version: "3"
 services:
+  payment-app-service:
+    build:
+      context: ./app-Midtrans
+    container_name: payment-app
+    ports:
+      - '8088:80'
+    links:
+      - db:db
   radius:
     image: kap0ng/freeradius
+    container_name: radius
+    command: "tail -f /dev/null"
     restart: always
     depends_on:
       - db 
@@ -15,33 +25,7 @@ services:
       - ./config.env
     volumes:
       - ./service/freeradius/clients.conf:/etc/freeradius/3.0/clients.conf
-      #- ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-available/sqlcounter
-      #- ./service/freeradius/mods-available/sqlcounter:/etc/freeradius/3.0/mods-enabled/sqlcounter
-      #- ./service/freeradius/sites-enabled/default:/etc/freeradius/3.0/sites-enabled/default
-      #- ./service/freeradius/mods-config/sql/counter/mysql/accessperiod.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/accessperiod.conf
-      #- ./service/freeradius/mods-config/sql/counter/mysql/quotalimit.conf:/etc/freeradius/3.0/mods-config/sql/counter/mysql/quotalimit.conf
-      #- ./service/freeradius/radiusd.conf:/etc/freeradius/3.0/radiusd.conf
 
-#  freeradius-doloradius:
-#    image: boro/freeradius-daloradius
-#    restart: always
-#    depends_on:
-#      - db 
-#    links:
-#      - db:db
-#    ports: 
-#      - '1812:1812/udp'
-#      - '1813:1813/udp'
-#      - 8000:80
-#    environment:
-#      - CLIENT_SECRET=testhotspot
-#      - CLIENT_NET1=0.0.0.0/0
-#      - MYSQL_HOST=db
-#      - MYSQL_PORT=3306
-#      - MYSQL_DATABASE=radius
-#      - MYSQL_USER=root
-#      - MYSQL_PASS=rootpass
-#      - MYSQL_INIT_DATABASE=true
   db:
     image: mariadb:10
     restart: always
@@ -51,12 +35,12 @@ services:
       - ./service/mysql/mysql.config.env
     volumes:
       - "./mysql-data:/var/lib/mysql"
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    links:
-      - db:db
-    environment:
-      - PMA_ARBITRARY=1
+  #phpmyadmin:
+  #  image: phpmyadmin
+  #  restart: always
+  #  ports:
+  #    - 8080:80
+  #  links:
+  #    - db:db
+  #  environment:
+  #    - PMA_ARBITRARY=1
