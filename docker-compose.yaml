@@ -2,7 +2,7 @@ version: "3"
 services:
   payment-app-service:
     build:
-      context: ./app-Midtrans
+      context: ./payment-app
     container_name: payment-app
     ports:
       - '8088:80'

@@ -1,4 +1,7 @@
-FROM php:7.4-apache-bullseye
+FROM php:8.2-apache-bullseye
+
+#copy apacche config
+COPY ./apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
@@ -11,11 +14,16 @@ RUN apt-get install -y \
 
 RUN a2enmod rewrite
 
-WORKDIR /var/www/html
+RUN mkdir -p /var/www/html/
+WORKDIR /var/www/html/
 
 COPY . .
 
+RUN cp .env.example .env
+
 RUN composer install
+
+RUN chmod -R 777 storage/
 
 RUN ls -lha
 
