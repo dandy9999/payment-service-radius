@@ -1,4 +1,4 @@
-FROM php:8-apache-buster
+FROM php:7.4-apache-bullseye
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
@@ -8,6 +8,8 @@ RUN apt-get install -y \
         libzip-dev \
         zip \
   && docker-php-ext-install zip
+
+RUN a2enmod rewrite
 
 WORKDIR /var/www/html
 
