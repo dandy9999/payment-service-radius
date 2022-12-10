@@ -9,25 +9,23 @@ services:
     links:
       - db:db
   radius:
-    image: kap0ng/freeradius
+    image: 2stacks/freeradius
     container_name: radius
-    command: "tail -f /dev/null"
     restart: always
-    depends_on:
-      - db 
-    links:
-      - db:db
-    ports: 
+    ports:
       - '1812:1812/udp'
       - '1813:1813/udp'
+    depends_on:
+      - db
+    links:
+      - db:db
     env_file:
-      - ./service/mysql/mysql.config.env
       - ./config.env
     volumes:
-      - ./service/freeradius/clients.conf:/etc/freeradius/3.0/clients.conf
-
+      - ./service/freeradius/clients.conf:/etc/raddb/clients.conf    
   db:
-    image: mariadb:10
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports: 
       - '3306:3306'
@@ -35,12 +33,13 @@ services:
       - ./service/mysql/mysql.config.env
     volumes:
       - "./mysql-data:/var/lib/mysql"
-  #phpmyadmin:
-  #  image: phpmyadmin
-  #  restart: always
-  #  ports:
-  #    - 8080:80
-  #  links:
-  #    - db:db
-  #  environment:
-  #    - PMA_ARBITRARY=1
+      - "./service/mysql/radius.sql:/docker-entrypoint-initdb.d/radius.sql"
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8082:80
+    links:
+      - db:db
+    environment:
+      - PMA_ARBITRARY=1
